@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/lblLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/enterPincodeString"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_marginLeft="20dp"
+        />
+
+    <EditText
+        android:id="@+id/txtPincode"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+
+
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/lblLocation"
+        android:layout_toRightOf="@+id/lblLocation"
+        android:layout_marginLeft="20dp"/>
+
+    <TextView
+        android:id="@+id/lblErrorPincode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/changeLocationError"
+        android:textColor="#ffff0000"
+        android:visibility="invisible"
+        android:layout_below="@+id/txtPincode"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:id="@+id/btnOkChangeLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lblErrorPincode"
+        android:text="Ok"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        />
+
+    <Button
+        android:id="@+id/btnCancelChangeLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:layout_alignTop="@+id/btnOkChangeLocation"
+        android:layout_toRightOf="@+id/btnOkChangeLocation"
+        android:layout_toEndOf="@+id/btnOkChangeLocation"/>
+
+
+</RelativeLayout>

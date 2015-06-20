@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Inviks1</string>
+    <string name="action_settings">Settings</string>
+    <string name="ChangeLocationBtnText">Change location</string>
+    <string name="changeLocationError">This pin code is not available</string>
+    <string name="enterPincodeString">Enter pincode</string>
+    <string name="listViewOption1">Change Location</string>
+    <string name="listViewOption2">Search</string>
+    <string name="listViewOption3">Upload prescription and order</string>
+    <string name="serviceURL">http://10.0.2.2:8084/healthKart/rest/</string>
+    <string name="databaseName">Upload prescription and order</string>
+    <string name="databaseString">Upload prescription and order</string>
+    <string name="title_activity_search">SearchActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_item_details">ItemDetails</string>
+    <string name="title_activity_login_main">LoginMain</string>
+    <string name="title_activity_cart_view">Cart</string>
+</resources>

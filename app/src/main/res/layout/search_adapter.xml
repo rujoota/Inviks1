@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+                android:paddingBottom="@dimen/activity_vertical_margin"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Medicine name"
+        android:id="@+id/lblMedicine"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Price Rs"
+        android:id="@+id/lblPrice"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="By company"
+        android:id="@+id/lblCompanyName"
+        android:layout_below="@+id/lblMedicine"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="shortDescription"
+        android:id="@+id/lblShortDescription"
+        android:layout_below="@+id/lblCompanyName"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="(tablet)"
+        android:id="@+id/lblForm"
+        android:layout_alignTop="@+id/lblMedicine"
+        android:layout_toRightOf="@+id/lblMedicine"
+        android:layout_toEndOf="@+id/lblMedicine"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="(100mg)"
+        android:id="@+id/lblComposition"
+        android:layout_alignTop="@+id/lblMedicine"
+        android:layout_toRightOf="@+id/lblForm"
+        android:layout_toEndOf="@+id/lblForm"/>
+</RelativeLayout>

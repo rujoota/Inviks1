@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="MedicineName"
+        android:id="@+id/lblMedicineNameCart" android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" android:layout_alignParentLeft="true"/>
+
+    <Spinner
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/drpQty"
+
+        android:layout_alignTop="@+id/lblPriceCart"
+        android:layout_toLeftOf="@+id/lblPriceCart"
+        android:layout_toStartOf="@+id/lblPriceCart"
+        android:layout_marginRight="20dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Price"
+        android:id="@+id/lblPriceCart"
+        android:layout_alignTop="@+id/btnDeleteCart"
+        android:layout_toLeftOf="@+id/btnDeleteCart"
+        android:layout_toStartOf="@+id/btnDeleteCart"
+        android:layout_marginRight="20dp"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnDeleteCart"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_action_delete"/>
+
+
+</RelativeLayout>
