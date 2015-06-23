@@ -11,6 +11,10 @@
 <style name="simpleButton" parent="@android:style/Widget.Button">
     <item name="android:background">@drawable/homepagebutton</item>
 </style>
+    <style name="hyperLink" parent="Base.Widget.AppCompat.Button.Borderless">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/hyperLinkColor</item>
+    </style>
     <style name="imgButton" parent="@android:style/Widget.Button">
         <item name="android:background">@drawable/image_button_global</item>
 
@@ -29,4 +33,5 @@
     </style>
     <color name="mainColor">#92D050</color>
     <color name="transparent">#00000000</color>
+    <color name="hyperLinkColor">#0000FF</color>
 </resources>

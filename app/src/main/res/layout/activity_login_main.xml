@@ -56,7 +56,8 @@
         android:id="@+id/btnOkLogin"
         android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/txtPasswordLogin" android:onClick="onOkClick"/>
+        android:layout_below="@+id/txtPasswordLogin"
+        android:onClick="onOkClick"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -65,6 +66,30 @@
         android:id="@+id/btnCancelLogin"
         android:layout_alignTop="@+id/btnOkLogin"
         android:layout_toRightOf="@+id/btnOkLogin"
-        android:layout_toEndOf="@+id/btnOkLogin"/>
+        android:layout_toEndOf="@+id/btnOkLogin"
+        android:onClick="onCancelClick"/>
+
+    <Button
+        style="@style/hyperLink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Forgot password"
+        android:id="@+id/btnForgotLogin"
+        android:layout_below="@+id/btnOkLogin"
+        android:layout_alignLeft="@+id/btnOkLogin"
+        android:layout_alignStart="@+id/btnOkLogin"
+        android:onClick="onForgotClick"
+        />
+
+    <Button
+        style="@style/hyperLink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New user?"
+        android:id="@+id/btnRegisterLogin"
+        android:layout_below="@+id/btnForgotLogin"
+        android:layout_alignLeft="@+id/btnForgotLogin"
+        android:layout_alignStart="@+id/btnForgotLogin"
+        android:onClick="onRegisterClick"/>
 
 </RelativeLayout>

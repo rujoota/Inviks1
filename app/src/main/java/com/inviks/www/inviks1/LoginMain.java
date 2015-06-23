@@ -1,52 +1,41 @@
 package com.inviks.www.inviks1;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 
 
-public class LoginMain extends Activity
+public class LoginMain extends BaseActivityClass
 {
-
+    EditText email,password;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_main);
-        android.app.ActionBar bar = getActionBar();
-        
+        email=(EditText)findViewById(R.id.txtEmailLogin);
+        password=(EditText)findViewById(R.id.txtPasswordLogin);
     }
     public void onOkClick(View view)
     {
-        // if coming from left swipe
+
+    }
+    public void onCancelClick(View view)
+    {
         this.finish();
-        // if coming from checkout button
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
+    public void onForgotClick(View view)
     {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_login_main, menu);
-        return true;
+
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
+    public void onRegisterClick(View view)
     {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings)
-        {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        Intent intent=new Intent(this,NewUserRegistration.class);
+        startActivityForResult(intent,1);
     }
 }

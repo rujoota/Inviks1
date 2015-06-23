@@ -16,4 +16,6 @@
     <string name="title_activity_item_details">ItemDetails</string>
     <string name="title_activity_login_main">LoginMain</string>
     <string name="title_activity_cart_view">Cart</string>
+    <string name="title_activity_new_user_registration">New user registration</string>
+    <string name="title_activity_forgot_password">Forgot Password?</string>
 </resources>
