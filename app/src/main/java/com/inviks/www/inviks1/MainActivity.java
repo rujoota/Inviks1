@@ -102,5 +102,9 @@ public class MainActivity extends BaseActivityClass implements ChangeLocationDia
         ChangeLocationDialog myDialog=new ChangeLocationDialog();
         myDialog.show(manager, "Change location");
     }
-
+    public void login(View view)
+    {
+        Intent intent=new Intent(this,LoginMain.class);
+        startActivityForResult(intent,0);
+    }
 }

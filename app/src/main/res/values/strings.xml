@@ -18,4 +18,6 @@
     <string name="title_activity_cart_view">Cart</string>
     <string name="title_activity_new_user_registration">New user registration</string>
     <string name="title_activity_forgot_password">Forgot Password?</string>
+    <string name="loggedInUser_sharedPref_string">loggedInUser</string>
+    <string name="isLoggedIn_sharedPref_string">isLoggedIn</string>
 </resources>

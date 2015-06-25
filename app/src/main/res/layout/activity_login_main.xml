@@ -92,4 +92,14 @@
         android:layout_alignStart="@+id/btnForgotLogin"
         android:onClick="onRegisterClick"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Username or password is not valid"
+        android:id="@+id/lblErrorLogin"
+        android:layout_below="@+id/txtPasswordLogin"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        style="@style/errorLabel" android:visibility="invisible"/>
+
 </RelativeLayout>
