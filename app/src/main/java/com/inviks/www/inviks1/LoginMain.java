@@ -46,7 +46,8 @@ public class LoginMain extends BaseActivityClass
     }
     public void onForgotClick(View view)
     {
-
+        Intent intent=new Intent(this,ForgotPassword.class);
+        startActivityForResult(intent,1);
     }
     public void onRegisterClick(View view)
     {

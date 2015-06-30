@@ -7,7 +7,7 @@
     <string name="listViewOption1">Change Location</string>
     <string name="listViewOption2">Search</string>
     <string name="listViewOption3">Upload prescription and order</string>
-    <string name="serviceURL">http://10.0.2.2:8084/healthKart/rest/</string>
+    <string name="serviceURL">http://10.0.2.2:8081/healthKart/rest/</string>
     <string name="databaseName">Upload prescription and order</string>
     <string name="databaseString">Upload prescription and order</string>
     <string name="title_activity_search">SearchActivity</string>

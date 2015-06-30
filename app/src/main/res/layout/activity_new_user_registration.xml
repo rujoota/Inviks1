@@ -93,6 +93,16 @@
         android:layout_below="@+id/txtConfirmPwdRegister"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Terms and Conditions"
+        android:id="@+id/btnTermsRegister"
+        style="@style/hyperLink"
+        android:layout_below="@+id/txtConfirmPwdRegister"
+        android:layout_toRightOf="@+id/chkAcceptRegister"
+        android:layout_toEndOf="@+id/chkAcceptRegister"
+        android:onClick="onTermsClick"/>
 
     <Button
         android:layout_width="wrap_content"
