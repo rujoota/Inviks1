@@ -134,5 +134,8 @@
     <orderEntry type="library" exported="" name="play-services-appstate-7.3.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-games-7.3.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-identity-7.3.0" level="project" />
+    <orderEntry type="module" module-name="mail" exported="" />
+    <orderEntry type="module" module-name="activation" exported="" />
+    <orderEntry type="module" module-name="additionnal" exported="" />
   </component>
 </module>

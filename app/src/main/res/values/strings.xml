@@ -20,4 +20,6 @@
     <string name="title_activity_forgot_password">Forgot Password?</string>
     <string name="loggedInUser_sharedPref_string">loggedInUser</string>
     <string name="isLoggedIn_sharedPref_string">isLoggedIn</string>
+    <string name="fromEmail">mithumahek@gmail.com</string>
+    <string name="fromPassword">happynewyear2016</string>
 </resources>
