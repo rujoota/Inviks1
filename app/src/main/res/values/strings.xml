@@ -10,11 +10,11 @@
     <string name="serviceURL">http://10.0.2.2:8081/healthKart/rest/</string>
     <string name="databaseName">Upload prescription and order</string>
     <string name="databaseString">Upload prescription and order</string>
-    <string name="title_activity_search">SearchActivity</string>
+    <string name="title_activity_search">Search</string>
 
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_item_details">ItemDetails</string>
-    <string name="title_activity_login_main">LoginMain</string>
+    <string name="title_activity_item_details">Item Details</string>
+    <string name="title_activity_login_main">Login</string>
     <string name="title_activity_cart_view">Cart</string>
     <string name="title_activity_new_user_registration">New user registration</string>
     <string name="title_activity_forgot_password">Forgot Password?</string>
@@ -22,4 +22,9 @@
     <string name="isLoggedIn_sharedPref_string">isLoggedIn</string>
     <string name="fromEmail">mithumahek@gmail.com</string>
     <string name="fromPassword">happynewyear2016</string>
+    <string name="title_activity_terms_and_conditions">Terms and Conditions</string>
+    <string name="termsText">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s,\n when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, \nand more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\n\n
+        Contrary to popular belief, Lorem Ipsum is not simply random text. \nIt has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia,\n looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. \nThe first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", \ncomes from a line in section 1.10.32.\n\n
+        It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\n The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using Content here, content here, making it look like readable English.\n Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for lorem ipsum will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).\n\n
+    </string>
 </resources>

@@ -6,7 +6,8 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:id="@+id/txtCodePopup"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -14,8 +15,16 @@
         android:text="Ok"
         android:id="@+id/btnOkPopup"
         android:layout_below="@+id/txtCodePopup"
+        android:layout_toLeftOf="@+id/btnResendPopup"
+        android:layout_toStartOf="@+id/btnResendPopup" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Resend code"
+        android:id="@+id/btnResendPopup"
+        android:layout_alignBottom="@+id/btnOkPopup"
         android:layout_toLeftOf="@+id/btnCancelPopup"
-        android:layout_toStartOf="@+id/btnCancelPopup" />
+        android:layout_toStartOf="@+id/btnCancelPopup" android:onClick="onResendClicked" />
 
     <Button
         android:layout_width="wrap_content"
@@ -25,4 +34,6 @@
         android:layout_alignTop="@+id/btnOkPopup"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+
 </RelativeLayout>

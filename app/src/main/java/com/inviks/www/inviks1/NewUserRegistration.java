@@ -1,44 +1,29 @@
 package com.inviks.www.inviks1;
 
-import android.app.FragmentManager;
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.inviks.DBClasses.Medicine;
 import com.inviks.Helper.Helper;
-
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
-
-import java.io.BufferedReader;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Random;
-
-
-public class NewUserRegistration extends BaseActivityClass implements VerifyCodePopup.Communicator{
+public class NewUserRegistration extends BaseActivityClass{// implements VerifyCodePopup.Communicator{
 
     EditText name,email,pwd,confirmPwd;
     Context context=this;
     CheckBox accept;
-    VerifyCodePopup myDialog;
+    //VerifyCodePopup myDialog;
+    TextView hyperlinkAccept;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,13 +33,18 @@ public class NewUserRegistration extends BaseActivityClass implements VerifyCode
         pwd=(EditText)findViewById(R.id.txtPasswordRegister);
         confirmPwd=(EditText)findViewById(R.id.txtConfirmPwdRegister);
         accept=(CheckBox)findViewById(R.id.chkAcceptRegister);
+        hyperlinkAccept=(TextView)findViewById(R.id.btnTermsRegister);
     }
     public void onOkClick(View view)
     {
         if(isValid()) {
             new NewUserAdd().execute(name.getText().toString(), email.getText().toString(), pwd.getText().toString(),String.valueOf(Helper.generateRandom(1000, 9999)));
         }
-
+    }
+    public void onTermsClick(View view)
+    {
+        Intent intent=new Intent(this,TermsAndConditions.class);
+        startActivityForResult(intent,1);
     }
     private boolean isValid()
     {
@@ -96,7 +86,8 @@ public class NewUserRegistration extends BaseActivityClass implements VerifyCode
         }
         if(!accept.isChecked())
         {
-            accept.setError("Please accept terms & conditions");
+            //accept.setError("Please accept terms & conditions");
+            hyperlinkAccept.setError("Please accept terms & conditions");
             error=true;
         }
         return !error;
@@ -106,11 +97,10 @@ public class NewUserRegistration extends BaseActivityClass implements VerifyCode
         this.finish();
     }
 
-    @Override
+    /*@Override
     public void okCallBack(String userEnteredCode) {
         //myDialog.dismiss();
-
-    }
+    }*/
 
     class NewUserAdd extends AsyncTask<String, String, Void>
     {
@@ -152,7 +142,12 @@ public class NewUserRegistration extends BaseActivityClass implements VerifyCode
                 editor.putString(getString(R.string.loggedInUser_sharedPref_string),email.getText().toString());
                 editor.apply();*/
 
-                /*Toast.makeText(context,"Please activate your id from your email inbox",Toast.LENGTH_LONG).show();
+
+                String subject = "Hello from Inviks, here is your code";
+                String body = "Hi,<br/>Click on the following link to activate your email id for Inviks app:<br/><a href='http://localhost/loginverified.php?userid="+email.getText().toString()+"&code="+code+"'>Click here</a>"
+                        +"<br/>Please click this to activate your email id. Without this, you will not be completely registered on Inviks.<br/><br/>Thanks and regards,<br/>Team Inviks";
+                new Helper().sendMail(context, email.getText().toString(), subject, body);
+                Toast.makeText(context,"Please check your email to activate your account",Toast.LENGTH_LONG).show();
                 Thread t = new Thread( new Runnable()
                 {
                     @Override
@@ -170,14 +165,11 @@ public class NewUserRegistration extends BaseActivityClass implements VerifyCode
                         finish();
                     }
                 });
-                t.start();*/
-                String subject = "Hello from Inviks, here is your code";
-                Random random = new Random();
-                String body = "Hi " + name.getText().toString() + ",<br/>Your verification code for Inviks App is:<br/>" + code + "<br/>Please enter this in app when it pops up for verification code. Without this, you will not be completely registered on Inviks.<br/><br/>Thanks and regards,<br/>Team Inviks";
-                new Helper().sendMail(context, email.getText().toString(), subject, body);
-                FragmentManager manager=getFragmentManager();
+                t.start();
+                /*FragmentManager manager=getFragmentManager();
                 myDialog=new VerifyCodePopup(context,email.getText().toString());
-                myDialog.show(manager, "Verify code");
+
+                myDialog.show(manager, "Verify code");*/
             }
             else if(result.equals("400")) //bad request
             {
@@ -189,5 +181,4 @@ public class NewUserRegistration extends BaseActivityClass implements VerifyCode
             }
         }
     }
-
 }

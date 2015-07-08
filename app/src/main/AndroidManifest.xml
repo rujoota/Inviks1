@@ -57,6 +57,10 @@
             android:name=".ForgotPassword"
             android:label="@string/title_activity_forgot_password" >
         </activity>
+        <activity
+            android:name=".TermsAndConditions"
+            android:label="@string/title_activity_terms_and_conditions" >
+        </activity>
     </application>
 
 </manifest>

@@ -88,12 +88,11 @@
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/accept"
         android:id="@+id/chkAcceptRegister"
         android:layout_below="@+id/txtConfirmPwdRegister"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
-    <Button
+    <!--<Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Terms and Conditions"
@@ -102,7 +101,24 @@
         android:layout_below="@+id/txtConfirmPwdRegister"
         android:layout_toRightOf="@+id/chkAcceptRegister"
         android:layout_toEndOf="@+id/chkAcceptRegister"
-        android:onClick="onTermsClick"/>
+        android:onClick="onTermsClick" />-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Accept "
+        android:id="@+id/lblTerms"
+        android:layout_alignBottom="@+id/chkAcceptRegister"
+        android:layout_toRightOf="@+id/chkAcceptRegister"
+        android:layout_toEndOf="@+id/chkAcceptRegister" android:layout_marginBottom="5dp"/>
+    <TextView android:linksClickable="true" android:autoLink="all"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Terms and Conditions"
+        android:id="@+id/btnTermsRegister" android:textColor="@color/hyperLinkColor"
+        android:onClick="onTermsClick"
+        android:layout_alignBottom="@+id/lblTerms"
+        android:layout_toRightOf="@+id/lblTerms"
+        android:layout_toEndOf="@+id/lblTerms" />
 
     <Button
         android:layout_width="wrap_content"
