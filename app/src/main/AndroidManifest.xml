@@ -61,6 +61,10 @@
             android:name=".TermsAndConditions"
             android:label="@string/title_activity_terms_and_conditions" >
         </activity>
+        <activity
+            android:name=".LeftSwipeActivity"
+            android:label="@string/title_activity_left_swipe" >
+        </activity>
     </application>
 
 </manifest>
