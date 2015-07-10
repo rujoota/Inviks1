@@ -1,39 +1,42 @@
 package com.inviks.www.inviks1;
-import android.app.Activity;
-import android.content.Context;
+import android.app.FragmentManager;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class BaseActivityClass extends ActionBarActivity
 {
-
+    HashMap<String,List<String>> mainDrawerMap;
+    List<String> headerList;
+    ExpandableListView view;
+    CustomExpandableListAdapter adapter;
     private ArrayAdapter<String> mAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
     private String mActivityTitle;
     // drawer menu items list, protected so that we can access it in subclass
-    protected ListView mDrawerList;
-    protected String[] listArray = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+    protected ExpandableListView drawerList;
+    // after login, options will be-My Orders,Edit Profile,Sign Out
+    protected String[] listArray = { "Login", "Home", "Check pincode", "Share", "Rate us","Feedback","About","Help" };
     //Static variable for selected item position. Which can be used in child activity to know which item is selected from the list.
     protected static int position;
-    private DrawerLayout mDrawerLayout;
+    private DrawerLayout drawerLayout;
    //Drawer listner class for drawer open, close etc.
     private ActionBarDrawerToggle actionBarDrawerToggle;
     protected void onCreate(Bundle savedInstanceState)
@@ -56,23 +59,66 @@ public class BaseActivityClass extends ActionBarActivity
         frameLayout = (FrameLayout) fullLayout.findViewById(R.id.container);
         getLayoutInflater().inflate(layoutResID, frameLayout, true);
         super.setContentView(fullLayout);
+        //setupExpandableListView();
+        setupListView();
         setup();
     }
-    void setup() {
-
-        mDrawerLayout = (DrawerLayout) fullLayout.findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) fullLayout.findViewById(R.id.left_drawer);
+    void setupListView()
+    {
+        mainDrawerMap = getInfo();
+        headerList=new ArrayList<String>(mainDrawerMap.keySet());
+        drawerLayout = (DrawerLayout) fullLayout.findViewById(R.id.drawer_layout);
+        drawerList = (ExpandableListView) fullLayout.findViewById(R.id.expandableListViewDrawer);
+        // change listarray if user has logged in
         // set up the drawer's list view with items and click listener
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, listArray));
-        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
+        /*drawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, listArray));
+        drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
+                                    int position, long id)
+            {
                 openActivity(position);
             }
+        });*/
+        adapter = new CustomExpandableListAdapter(this, mainDrawerMap, headerList);
+        drawerList.setAdapter(adapter);
+        drawerList.setOnChildClickListener(new ExpandableListView.OnChildClickListener()
+        {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id)
+            {
+                Toast.makeText(getBaseContext(), "child clicked", Toast.LENGTH_SHORT).show();
+                return false;
+            }
         });
-
+        drawerList.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener()
+        {
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id)
+            {
+                if(groupPosition==1)
+                {
+                    Toast.makeText(getBaseContext(), "parent clicked", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                /*else if(groupPosition==2)
+                {
+                    mainDrawerMap.put("Login", null);
+                    mainDrawerMap.remove("Me");
+                    headerList = new ArrayList<String>(mainDrawerMap.keySet());
+                    adapter = new CustomExpandableListAdapter(getBaseContext(), mainDrawerMap, headerList);
+                    view.setAdapter(adapter);
+                    //((BaseExpandableListAdapter) view.getAdapter()).notifyDataSetChanged();
+                    return true;
+                }*/
+                else
+                    return false;
+            }
+        });
+    }
+    void setup()
+    {
         // enable ActionBar app icon to behave as action to toggle nav drawer
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //getSupportActionBar().setHomeButtonEnabled(true);
@@ -80,7 +126,7 @@ public class BaseActivityClass extends ActionBarActivity
         // ActionBarDrawerToggle ties together the the proper interactions between the sliding drawer and the action bar app icon
         actionBarDrawerToggle = new ActionBarDrawerToggle(
                 this,						/* host Activity */
-                mDrawerLayout, 				/* DrawerLayout object */
+                drawerLayout, 				/* DrawerLayout object */
                 R.drawable.ic_action_threebar,     /* nav drawer image to replace 'Up' caret */
                 R.string.open_drawer,       /* "open drawer" description for accessibility */
                 R.string.close_drawer)      /* "close drawer" description for accessibility */
@@ -109,7 +155,7 @@ public class BaseActivityClass extends ActionBarActivity
                 super.onDrawerStateChanged(newState);
             }
         };
-        mDrawerLayout.setDrawerListener(actionBarDrawerToggle);
+        drawerLayout.setDrawerListener(actionBarDrawerToggle);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
@@ -150,49 +196,97 @@ public class BaseActivityClass extends ActionBarActivity
         }
         return super.onOptionsItemSelected(item);
     }
-
-
     /**
      * @param position
-     *
-     * Launching activity when any list item is clicked.
+
+    * Launching activity when any list item is clicked.
      */
     protected void openActivity(int position) {
 
-		mDrawerList.setItemChecked(position, true);
+		drawerList.setItemChecked(position, true);
 		//setTitle(listArray[position]);
-        mDrawerLayout.closeDrawer(mDrawerList);
+        drawerLayout.closeDrawer(drawerList);
         BaseActivityClass.position = position; //Setting currently selected position in this field so that it will be available in our child activities.
-
+        // after login, options will be-My Orders,Edit Profile,Sign Out
+        //protected String[] listArray = { "Login", "Home", "Check pincode", "Share", "Rate us","Feedback","About","Help" }
         switch (position) {
-            case 0:
-                //startActivity(new Intent(this, Item1Activity.class));
+            case 0://login
+                startActivityForResult(new Intent(this, LoginMain.class),1);
                 break;
-            case 1:
-                //startActivity(new Intent(this, Item2Activity.class));
+            case 1://home
+                startActivity(new Intent(this, MainActivity.class));
+                finish();
                 break;
-            case 2:
+            case 2://change location
+                FragmentManager manager=getFragmentManager();
+                ChangeLocationDialog myDialog=new ChangeLocationDialog();
+                myDialog.show(manager, "Change location");
                 //startActivity(new Intent(this, Item3Activity.class));
                 break;
-            case 3:
+            case 3://share
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("text/html");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.shareSubject));
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, getString(R.string.shareBody));
+                startActivity(Intent.createChooser(sharingIntent, "Share via"));
                 //startActivity(new Intent(this, Item4Activity.class));
                 break;
-            case 4:
+            case 4://rate us
+                // need to test this
+                Uri uri = Uri.parse("market://details?id=" + getPackageName());
+                Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+                try
+                {
+                    startActivity(goToMarket);
+                }
+                catch (ActivityNotFoundException e)
+                {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + getPackageName())));
+                }
                 //startActivity(new Intent(this, Item5Activity.class));
                 break;
-
+            case 5://feedback
+                Intent intent=new Intent(Intent.ACTION_SEND);
+                intent.setData(Uri.parse("mailto:"));
+                String []to={getString(R.string.inviksMailId)};
+                intent.putExtra(Intent.EXTRA_EMAIL,to);
+                intent.setType("message/rfc822");
+                Intent chooser=Intent.createChooser(intent, "Send email");
+                startActivity(chooser);
+            case 6://about
+                Uri aboutUrl = Uri.parse(getString(R.string.aboutUrl));
+                Intent aboutIntent = new Intent(Intent.ACTION_VIEW, aboutUrl);
+                startActivity(aboutIntent);
+            case 7://help
+                startActivity(new Intent(this, HelpActivity.class));
             default:
                 break;
         }
 
-        Toast.makeText(this, "Selected Item Position::"+position, Toast.LENGTH_LONG).show();
+
+    }
+
+    public HashMap<String,List<String>> getInfo()
+    {
+        HashMap<String,List<String>> details=new HashMap<String,List<String>>();
+
+        List<String> login=new ArrayList<String>();
+        login.add("My Orders");
+        login.add("Edit Profile");
+        details.put("Me", login);
+        for(int i=0;i<listArray.length;i++)
+        {
+            details.put(listArray[i],null);
+        }
+
+        return details;
     }
 
 /*    // Called whenever we call invalidateOptionsMenu()
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         // If the nav drawer is open, hide action items related to the content view
-        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+        boolean drawerOpen = drawerLayout.isDrawerOpen(drawerList);
         //menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
         return super.onPrepareOptionsMenu(menu);
     }*/
@@ -200,11 +294,11 @@ public class BaseActivityClass extends ActionBarActivity
     /*// We can override onBackPressed method to toggle navigation drawer
     @Override
     public void onBackPressed() {
-        if(mDrawerLayout.isDrawerOpen(mDrawerList)){
-            mDrawerLayout.closeDrawer(mDrawerList);
+        if(drawerLayout.isDrawerOpen(drawerList)){
+            drawerLayout.closeDrawer(drawerList);
         }
         else {
-            mDrawerLayout.openDrawer(mDrawerList);
+            drawerLayout.openDrawer(drawerList);
         }
         finish();
     }*/

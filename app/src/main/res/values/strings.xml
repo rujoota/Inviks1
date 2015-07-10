@@ -40,4 +40,25 @@
     <string name="open_drawer">Open navigation drawer</string>
     <string name="close_drawer">Close navigation drawer</string>
     <string name="title_activity_left_swipe">LeftSwipeActivity</string>
+    <string name="shareSubject">Hey try Inviks app, its really good</string>
+    <string name="shareBody">Download it from here - http://www.google.com</string>
+    <string name="inviksMailId">mithumahek@gmail.com</string>
+    <string name="aboutUrl">mithumahek@gmail.com</string>
+    <string name="title_activity_help">HelpActivity</string>
+    <string name="helpText">
+        Inviks started and manage by enthusiastic pharmaceutical and healthcare professionals. We are mainly focused on manufacturing and supply of pharmaceutical materials like active pharmaceutical ingredient (API), formulation and intermediate for regulated and semi regulated market around the world.
+\nAt Inviks, we make utmost effort for high performance with high integrity.
+\nWe believe that responsible business results in prolonged business.
+
+\nSome of the core competence of Inviks
+\nMaintain a personalized relationship with our valued customers.
+\nResearch and Development Technical Support from a staff of RandD team and specialists to assist in product.
+\nCore values driven by a desire to achieve excellence and operate with the highest standards of integrity.
+\nContinuous improvement and development through our commitment to ensure quality products and services that meet or exceed the needs and expectations of our clients.
+\nIn-depth Market Intelligence, providing our customers with a competitive advantage.
+\nExtensive Supply Chain and Global, Strategic Sourcing relationships which secure the vital link in the supply chain.
+\nGlobal Logistics, offering a full service approach for all import/export delivery requirements.
+\nRegulatory Expertise for materials to ensure social responsibility through health and safety to customers and the environment.
+        \n\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s,\n when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, \nand more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\n\n
+    </string>
 </resources>

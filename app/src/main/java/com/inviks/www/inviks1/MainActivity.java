@@ -35,7 +35,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import android.widget.Toast;
 
-public class MainActivity extends BaseActivityClass implements ChangeLocationDialog.Communicator{
+public class MainActivity extends BaseActivityClass{ //implements ChangeLocationDialog.Communicator{
     TextView txt;
 
     @Override
@@ -92,9 +92,9 @@ public class MainActivity extends BaseActivityClass implements ChangeLocationDia
             Log.i("InviksLogs","Exception in changeIntent of main Activity:\n"+ex.getMessage());
         }
     }
-    public void getLocationString(String msg) {
+    /*public void getLocationString(String msg) {
         //Toast.makeText(this,msg,Toast.LENGTH_LONG).show();
-    }
+    }*/
 
     public void showDialog()
     {

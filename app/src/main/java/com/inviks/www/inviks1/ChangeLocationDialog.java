@@ -23,7 +23,7 @@ import java.io.InputStream;
 
 public class ChangeLocationDialog extends DialogFragment implements View.OnClickListener{
     Button ok,cancel;
-    Communicator com;
+    //Communicator com;
     EditText txtPincode;
     TextView lblError;
     @Nullable
@@ -41,11 +41,11 @@ public class ChangeLocationDialog extends DialogFragment implements View.OnClick
         return view;
     }
 
-    @Override
+    /*@Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         com=(Communicator)activity;
-    }
+    }*/
 
     @Override
     public void onClick(View v) {
@@ -63,10 +63,10 @@ public class ChangeLocationDialog extends DialogFragment implements View.OnClick
         }
     }
 
-    interface Communicator
+    /*interface Communicator
     {
         public void getLocationString(String msg);
-    }
+    }*/
     class task extends AsyncTask<String, String, Void>
     {
         //private ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
