@@ -89,7 +89,7 @@ public class MainActivity extends BaseActivityClass{ //implements ChangeLocation
         }
         catch (Exception ex)
         {
-            Log.i("InviksLogs","Exception in changeIntent of main Activity:\n"+ex.getMessage());
+            Log.i("Inviks","Exception in changeIntent of main Activity:\n"+ex.getMessage());
         }
     }
     /*public void getLocationString(String msg) {

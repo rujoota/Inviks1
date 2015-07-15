@@ -12,18 +12,23 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.inviks.Helper.Helper;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class BaseActivityClass extends ActionBarActivity
 {
-    HashMap<String,List<String>> mainDrawerMap;
+    LinkedHashMap<String,List<String>> mainDrawerMap;
     List<String> headerList;
     ExpandableListView view;
     CustomExpandableListAdapter adapter;
@@ -33,7 +38,7 @@ public class BaseActivityClass extends ActionBarActivity
     // drawer menu items list, protected so that we can access it in subclass
     protected ExpandableListView drawerList;
     // after login, options will be-My Orders,Edit Profile,Sign Out
-    protected String[] listArray = { "Login", "Home", "Check pincode", "Share", "Rate us","Feedback","About","Help" };
+
     //Static variable for selected item position. Which can be used in child activity to know which item is selected from the list.
     protected static int position;
     private DrawerLayout drawerLayout;
@@ -61,7 +66,7 @@ public class BaseActivityClass extends ActionBarActivity
         super.setContentView(fullLayout);
         //setupExpandableListView();
         setupListView();
-        setup();
+        setupDrawers();
     }
     void setupListView()
     {
@@ -69,18 +74,6 @@ public class BaseActivityClass extends ActionBarActivity
         headerList=new ArrayList<String>(mainDrawerMap.keySet());
         drawerLayout = (DrawerLayout) fullLayout.findViewById(R.id.drawer_layout);
         drawerList = (ExpandableListView) fullLayout.findViewById(R.id.expandableListViewDrawer);
-        // change listarray if user has logged in
-        // set up the drawer's list view with items and click listener
-        /*drawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, listArray));
-        drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id)
-            {
-                openActivity(position);
-            }
-        });*/
         adapter = new CustomExpandableListAdapter(this, mainDrawerMap, headerList);
         drawerList.setAdapter(adapter);
         drawerList.setOnChildClickListener(new ExpandableListView.OnChildClickListener()
@@ -88,7 +81,18 @@ public class BaseActivityClass extends ActionBarActivity
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id)
             {
-                Toast.makeText(getBaseContext(), "child clicked", Toast.LENGTH_SHORT).show();
+                // The 'Me' group has 'My Profile','My Orders' and 'Sign Out'
+                if(groupPosition==0 && childPosition==2)
+                {
+                    // user clicked on sign out button
+                    Toast.makeText(getBaseContext(), "You have been signed out", Toast.LENGTH_SHORT).show();
+                    mainDrawerMap.put("Login", null);
+                    mainDrawerMap.remove("Me");
+                    headerList = new ArrayList<String>(mainDrawerMap.keySet());
+                    adapter = new CustomExpandableListAdapter(getBaseContext(), mainDrawerMap, headerList);
+                    drawerList.setAdapter(adapter);
+                    signout();
+                }
                 return false;
             }
         });
@@ -97,27 +101,81 @@ public class BaseActivityClass extends ActionBarActivity
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id)
             {
-                if(groupPosition==1)
+                //drawerList.setItemChecked(groupPosition, true);
+                //setTitle(listArray[position]);
+                //drawerLayout.closeDrawer(drawerList);
+
+                // check for first item, it can be login or Me>Edit profile,view order,sign out
+                String groupName=headerList.get(groupPosition);
+                groupName=groupName.toLowerCase();
+                switch(groupName)// means its login
                 {
-                    Toast.makeText(getBaseContext(), "parent clicked", Toast.LENGTH_SHORT).show();
-                    return true;
+                    case "login":
+                        startActivityForResult(new Intent(getBaseContext(), LoginMain.class), 1);
+                        break;
+                    case "me":
+                        return false;
+                    case "home"://home
+                        startActivity(new Intent(getBaseContext(), MainActivity.class));
+                        finish();
+                        break;
+                    case "change location"://change location
+                        FragmentManager manager=getFragmentManager();
+                        ChangeLocationDialog myDialog=new ChangeLocationDialog();
+                        myDialog.show(manager, "Change location");
+                        //startActivity(new Intent(this, Item3Activity.class));
+                        break;
+                    case "share"://share
+                        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                        sharingIntent.setType("text/html");
+                        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.shareSubject));
+                        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, getString(R.string.shareBody));
+                        startActivity(Intent.createChooser(sharingIntent, "Share via"));
+                        //startActivity(new Intent(this, Item4Activity.class));
+                        break;
+                    case "rate us"://rate us
+                        // need to test this
+                        Uri uri = Uri.parse("market://details?id=" + getPackageName());
+                        Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+                        try
+                        {
+                            startActivity(goToMarket);
+                        }
+                        catch (ActivityNotFoundException e)
+                        {
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + getPackageName())));
+                        }
+                        break;
+                    case "feedback"://feedback
+                        Intent intent=new Intent(Intent.ACTION_SEND);
+                        intent.setData(Uri.parse("mailto:"));
+                        String []to={getString(R.string.inviksMailId)};
+                        intent.putExtra(Intent.EXTRA_EMAIL,to);
+                        intent.setType("message/rfc822");
+                        Intent chooser=Intent.createChooser(intent, "Send email");
+                        startActivity(chooser);
+                        break;
+                    case "about"://about
+                        Uri aboutUrl = Uri.parse(getString(R.string.aboutUrl));
+                        Intent aboutIntent = new Intent(Intent.ACTION_VIEW, aboutUrl);
+                        startActivity(aboutIntent);
+                        break;
+                    case "help"://help
+                        startActivity(new Intent(getBaseContext(), HelpActivity.class));
+                        break;
+                    default:
+                        break;
                 }
-                /*else if(groupPosition==2)
-                {
-                    mainDrawerMap.put("Login", null);
-                    mainDrawerMap.remove("Me");
-                    headerList = new ArrayList<String>(mainDrawerMap.keySet());
-                    adapter = new CustomExpandableListAdapter(getBaseContext(), mainDrawerMap, headerList);
-                    view.setAdapter(adapter);
-                    //((BaseExpandableListAdapter) view.getAdapter()).notifyDataSetChanged();
-                    return true;
-                }*/
-                else
-                    return false;
+                return true;
             }
         });
     }
-    void setup()
+    void signout()
+    {
+        Helper.removeSharedPref(this,getString(R.string.loggedInUser_sharedPref_string));
+        Helper.removeSharedPref(this,getString(R.string.isLoggedIn_sharedPref_string));
+    }
+    void setupDrawers()
     {
         // enable ActionBar app icon to behave as action to toggle nav drawer
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -175,104 +233,22 @@ public class BaseActivityClass extends ActionBarActivity
         }
         else if(item.getItemId()== R.id.action_cart)
         {
-            /*SharedPreferences sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-            String isUserLoggedIn = sharedPreferences.getString("isLoggedIn", "");
-            if (null != isUserLoggedIn && isUserLoggedIn.toLowerCase().equals("yes"))
-            {
-                // update cart for that user
-                //new UpdateCart().execute(thisMedicine.getMedicineId());
-            }
-            else
-            {
-                String cartItems = sharedPreferences.getString("cartMedicineIds", "");
-                String cartQtys = sharedPreferences.getString("cartMedicineQtys", "");
-                Intent intent=new Intent(this,CartView.class);
-                startActivity(intent);
-                //Toast.makeText(this,cartItems+" "+cartQtys , Toast.LENGTH_LONG).show();
-            }*/
             Intent intent=new Intent(this,CartView.class);
             startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
-    /**
-     * @param position
 
-    * Launching activity when any list item is clicked.
-     */
-    protected void openActivity(int position) {
-
-		drawerList.setItemChecked(position, true);
-		//setTitle(listArray[position]);
-        drawerLayout.closeDrawer(drawerList);
-        BaseActivityClass.position = position; //Setting currently selected position in this field so that it will be available in our child activities.
-        // after login, options will be-My Orders,Edit Profile,Sign Out
-        //protected String[] listArray = { "Login", "Home", "Check pincode", "Share", "Rate us","Feedback","About","Help" }
-        switch (position) {
-            case 0://login
-                startActivityForResult(new Intent(this, LoginMain.class),1);
-                break;
-            case 1://home
-                startActivity(new Intent(this, MainActivity.class));
-                finish();
-                break;
-            case 2://change location
-                FragmentManager manager=getFragmentManager();
-                ChangeLocationDialog myDialog=new ChangeLocationDialog();
-                myDialog.show(manager, "Change location");
-                //startActivity(new Intent(this, Item3Activity.class));
-                break;
-            case 3://share
-                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-                sharingIntent.setType("text/html");
-                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.shareSubject));
-                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, getString(R.string.shareBody));
-                startActivity(Intent.createChooser(sharingIntent, "Share via"));
-                //startActivity(new Intent(this, Item4Activity.class));
-                break;
-            case 4://rate us
-                // need to test this
-                Uri uri = Uri.parse("market://details?id=" + getPackageName());
-                Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
-                try
-                {
-                    startActivity(goToMarket);
-                }
-                catch (ActivityNotFoundException e)
-                {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + getPackageName())));
-                }
-                //startActivity(new Intent(this, Item5Activity.class));
-                break;
-            case 5://feedback
-                Intent intent=new Intent(Intent.ACTION_SEND);
-                intent.setData(Uri.parse("mailto:"));
-                String []to={getString(R.string.inviksMailId)};
-                intent.putExtra(Intent.EXTRA_EMAIL,to);
-                intent.setType("message/rfc822");
-                Intent chooser=Intent.createChooser(intent, "Send email");
-                startActivity(chooser);
-            case 6://about
-                Uri aboutUrl = Uri.parse(getString(R.string.aboutUrl));
-                Intent aboutIntent = new Intent(Intent.ACTION_VIEW, aboutUrl);
-                startActivity(aboutIntent);
-            case 7://help
-                startActivity(new Intent(this, HelpActivity.class));
-            default:
-                break;
-        }
-
-
-    }
-
-    public HashMap<String,List<String>> getInfo()
+    public LinkedHashMap<String,List<String>> getInfo()
     {
-        HashMap<String,List<String>> details=new HashMap<String,List<String>>();
+        LinkedHashMap<String,List<String>> details=new LinkedHashMap<String,List<String>>();
 
         List<String> login=new ArrayList<String>();
-        login.add("My Orders");
+        String[] listArray = { "Home", "Check pincode", "Share", "Rate us","Feedback","About","Help" };
         login.add("Edit Profile");
+        login.add("My Orders");
+        login.add("Sign Out");
         details.put("Me", login);
         for(int i=0;i<listArray.length;i++)
         {

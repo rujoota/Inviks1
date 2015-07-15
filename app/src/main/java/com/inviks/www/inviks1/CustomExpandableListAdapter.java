@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -23,9 +24,9 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter
     private static final int[] GROUP_EXPANDED_STATE_SET = { android.R.attr.state_expanded };
     private static final int[][] GROUP_STATE_SETS = { EMPTY_STATE_SET, GROUP_EXPANDED_STATE_SET };
     private Context context;
-    HashMap<String,List<String>> map;
+    LinkedHashMap<String,List<String>> map;
     List<String> headers;
-    public CustomExpandableListAdapter(Context context,HashMap<String,List<String>> hash,List<String> headers)
+    public CustomExpandableListAdapter(Context context,LinkedHashMap<String,List<String>> hash,List<String> headers)
     {
         this.map=hash;
         this.context=context;

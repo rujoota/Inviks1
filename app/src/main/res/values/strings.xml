@@ -7,7 +7,7 @@
     <string name="listViewOption1">Change Location</string>
     <string name="listViewOption2">Search</string>
     <string name="listViewOption3">Upload prescription and order</string>
-    <string name="serviceURL">http://10.0.2.2:8081/healthKart/rest/</string>
+    <string name="serviceURL">http://10.0.3.2:8084/healthKart/rest/</string>
     <string name="databaseName">Upload prescription and order</string>
     <string name="databaseString">Upload prescription and order</string>
     <string name="title_activity_search">Search</string>
@@ -43,7 +43,7 @@
     <string name="shareSubject">Hey try Inviks app, its really good</string>
     <string name="shareBody">Download it from here - http://www.google.com</string>
     <string name="inviksMailId">mithumahek@gmail.com</string>
-    <string name="aboutUrl">mithumahek@gmail.com</string>
+    <string name="aboutUrl">http://www.inviks.com/index.php/main/about</string>
     <string name="title_activity_help">HelpActivity</string>
     <string name="helpText">
         Inviks started and manage by enthusiastic pharmaceutical and healthcare professionals. We are mainly focused on manufacturing and supply of pharmaceutical materials like active pharmaceutical ingredient (API), formulation and intermediate for regulated and semi regulated market around the world.

@@ -16,6 +16,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.inviks.Helper.Helper;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -31,7 +33,7 @@ public class LoginMain extends BaseActivityClass
 {
     EditText email, password;
     TextView err;
-
+    Context context=this;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -111,12 +113,13 @@ public class LoginMain extends BaseActivityClass
             if (result.equals("true")) //ok
             {
                 err.setVisibility(View.INVISIBLE);
-                SharedPreferences sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-                String isUserLoggedIn = sharedPreferences.getString("isLoggedIn", "");
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString(getString(R.string.isLoggedIn_sharedPref_string), "yes");
-                editor.putString(getString(R.string.loggedInUser_sharedPref_string), email.getText().toString());
-                editor.apply();
+                // if already logged in
+                if(Helper.isUserLoggedIn(context))
+                {
+                    signout();
+                }
+                Helper.putSharedPref(context, getString(R.string.isLoggedIn_sharedPref_string), "yes");
+                Helper.putSharedPref(context, getString(R.string.loggedInUser_sharedPref_string), email.getText().toString());
                 finish();
             }
             else if (result.equals("false")) //means userid/password do not match
