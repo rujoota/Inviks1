@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -49,12 +50,14 @@ public class CartMedicineAdapter extends BaseAdapter
 
     class ViewHolder
     {
+        public int currentPosition;
         TextView medicineName;
         ImageButton delete;
         TextView price,qtyLable,priceLable;
         Spinner drpQty;
-        ViewHolder(View view)
+        ViewHolder(View view,int position)
         {
+            this.currentPosition=position;
             medicineName=(TextView)view.findViewById(R.id.lblMedicineNameCart);
             delete=(ImageButton)view.findViewById(R.id.btnDeleteCart);
             price=(TextView)view.findViewById(R.id.lblPriceCart);
@@ -83,42 +86,104 @@ public class CartMedicineAdapter extends BaseAdapter
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent)
+    public View getView(final int position, View convertView, ViewGroup parent)
     {
-
         View row=convertView;
         ViewHolder holder=null;
         if(row==null)
         {
             LayoutInflater inflater=(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             row=inflater.inflate(R.layout.cart_gridview_adapter,parent, false);
-            holder=new ViewHolder(row);
+            holder=new ViewHolder(row,position);
             row.setTag(holder);
         }
         else
         {
             holder=(ViewHolder)row.getTag();
-
         }
 
-            MedicinesInCart obj = medObjInCart.get(position);
-            holder.medicineName.setText(obj.getMedicineName());
-            holder.price.setText(obj.getTotal() + "Rs");
-            String[] displayQtys = new String[obj.getQtyAvailable()];
-            int selectedItemIndex = 0;
-            for (int i = 1; i <= displayQtys.length; i++)
+        final MedicinesInCart obj = medObjInCart.get(position);
+        holder.medicineName.setText(obj.getMedicineName());
+        holder.price.setText(obj.getTotal() + "Rs");
+        String[] displayQtys = new String[obj.getQtyAvailable()];
+        int selectedItemIndex = 0;
+        for (int i = 1; i <= displayQtys.length; i++)
+        {
+            if (i == obj.getQtyOrdered())
+                selectedItemIndex = i - 1;
+            displayQtys[i - 1] = String.valueOf(i);
+        }
+        ArrayAdapter<String> adapter;
+        adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, displayQtys);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        holder.drpQty.setAdapter(adapter);
+        holder.drpQty.setSelection(selectedItemIndex);
+        holder.delete.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
             {
-                if (i == obj.getQtyOrdered())
-                    selectedItemIndex = i - 1;
-                displayQtys[i - 1] = String.valueOf(i);
+                medObjInCart.remove(position);
+                notifyDataSetChanged();
+                new DeleteCartItem().execute(obj.getOrderId(),obj.getMedicineId());
             }
-            ArrayAdapter<String> adapter;
-            adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, displayQtys);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            holder.drpQty.setAdapter(adapter);
-            holder.drpQty.setSelection(selectedItemIndex);
-
+        });
         return row;
     }
+    class DeleteCartItem extends AsyncTask<String, Void, String>
+    {
+        InputStream is = null;
+        String result = "";
+        String textToSearch;
 
+        @Override
+        protected String doInBackground(String... params)
+        {
+            String url_select = context.getString(R.string.serviceURL) + "orders/deleteItemFromCart";
+
+            HttpClient httpClient = new DefaultHttpClient();
+
+            HttpGet httpGet = new HttpGet(url_select);
+            httpGet.setHeader("orderId", params[0]);
+            httpGet.setHeader("medicineId", params[1]);
+
+            try
+            {
+                HttpResponse httpResponse = httpClient.execute(httpGet);
+                int ret = httpResponse.getStatusLine().getStatusCode();
+                result = new Integer(ret).toString();
+            }
+            catch (Exception e)
+            {
+                Log.e("Inviks", "Error in http connection - DeleteCartItem" + e.toString());
+                return("Exception in get medicine details data.\n"+e.getMessage());
+            }
+            return("ok");
+        }
+
+        protected void onPostExecute(String v)
+        {
+            super.onPostExecute(v);
+            // no exception found on previous call
+            if(!v.toLowerCase().contains("exception"))
+            {
+                // if no medicines in cart then...
+                if(result.equals("200")) //ok, item got deleted
+                {
+                   // no need to do anything
+                    Toast.makeText(context,"Deleted record",Toast.LENGTH_SHORT).show();
+                }
+                else if(result.equals("400")) //bad request-maybe orderid or userid was invalid
+                {
+                    Toast.makeText(context,"There are some problems deleting this",Toast.LENGTH_SHORT).show();
+                    Log.i("Inviks","bad request for delete");
+                }
+                else//maybe some other problem
+                {
+                    Toast.makeText(context,"There are issues deleting this",Toast.LENGTH_SHORT).show();
+                    Log.i("Inviks","some other problem");
+                }
+            }
+        }
+    }
 }

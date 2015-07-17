@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -82,7 +83,7 @@ public class BaseActivityClass extends ActionBarActivity
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id)
             {
                 // The 'Me' group has 'My Profile','My Orders' and 'Sign Out'
-                if(groupPosition==0 && childPosition==2)
+                if (groupPosition == 0 && childPosition == 2)
                 {
                     // user clicked on sign out button
                     Toast.makeText(getBaseContext(), "You have been signed out", Toast.LENGTH_SHORT).show();
@@ -106,9 +107,9 @@ public class BaseActivityClass extends ActionBarActivity
                 //drawerLayout.closeDrawer(drawerList);
 
                 // check for first item, it can be login or Me>Edit profile,view order,sign out
-                String groupName=headerList.get(groupPosition);
-                groupName=groupName.toLowerCase();
-                switch(groupName)// means its login
+                String groupName = headerList.get(groupPosition);
+                groupName = groupName.toLowerCase();
+                switch (groupName)// means its login
                 {
                     case "login":
                         startActivityForResult(new Intent(getBaseContext(), LoginMain.class), 1);
@@ -120,8 +121,8 @@ public class BaseActivityClass extends ActionBarActivity
                         finish();
                         break;
                     case "change location"://change location
-                        FragmentManager manager=getFragmentManager();
-                        ChangeLocationDialog myDialog=new ChangeLocationDialog();
+                        FragmentManager manager = getFragmentManager();
+                        ChangeLocationDialog myDialog = new ChangeLocationDialog();
                         myDialog.show(manager, "Change location");
                         //startActivity(new Intent(this, Item3Activity.class));
                         break;
@@ -147,12 +148,12 @@ public class BaseActivityClass extends ActionBarActivity
                         }
                         break;
                     case "feedback"://feedback
-                        Intent intent=new Intent(Intent.ACTION_SEND);
+                        Intent intent = new Intent(Intent.ACTION_SEND);
                         intent.setData(Uri.parse("mailto:"));
-                        String []to={getString(R.string.inviksMailId)};
-                        intent.putExtra(Intent.EXTRA_EMAIL,to);
+                        String[] to = {getString(R.string.inviksMailId)};
+                        intent.putExtra(Intent.EXTRA_EMAIL, to);
                         intent.setType("message/rfc822");
-                        Intent chooser=Intent.createChooser(intent, "Send email");
+                        Intent chooser = Intent.createChooser(intent, "Send email");
                         startActivity(chooser);
                         break;
                     case "about"://about
@@ -172,8 +173,8 @@ public class BaseActivityClass extends ActionBarActivity
     }
     void signout()
     {
-        Helper.removeSharedPref(this,getString(R.string.loggedInUser_sharedPref_string));
-        Helper.removeSharedPref(this,getString(R.string.isLoggedIn_sharedPref_string));
+        Helper.removeSharedPref(this, getString(R.string.loggedInUser_sharedPref_string));
+        Helper.removeSharedPref(this, getString(R.string.isLoggedIn_sharedPref_string));
     }
     void setupDrawers()
     {
@@ -256,6 +257,13 @@ public class BaseActivityClass extends ActionBarActivity
         }
 
         return details;
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 
 /*    // Called whenever we call invalidateOptionsMenu()

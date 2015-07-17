@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -26,6 +27,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.inviks.DBClasses.Medicine;
 import com.inviks.DBClasses.MedicinesInCart;
+import com.inviks.Helper.Helper;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -42,6 +44,7 @@ import java.nio.channels.NonWritableChannelException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.zip.Inflater;
 
 
 public class CartView extends BaseActivityClass
@@ -67,20 +70,17 @@ public class CartView extends BaseActivityClass
     }
     private void manageCart()
     {
-        sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-        String isUserLoggedIn = sharedPreferences.getString("isLoggedIn", "");
         String userId="",orderId="";
-        if (null != isUserLoggedIn && isUserLoggedIn.toLowerCase().equals("yes"))
+        if (Helper.isUserLoggedIn(this))
         {
             // update cart for that user
             //new UpdateCart().execute(thisMedicine.getMedicineId());
-            userId=sharedPreferences.getString("loggedInUser", "");
+            userId=Helper.getCurrentLoggedinUser(this);
         }
         else
         {
-            orderId=sharedPreferences.getString("orderIdForCart","");
+            orderId=Helper.getSharedPref(this,"orderIdForCart");
         }
-        Log.i("Inviks","userid:"+userId+",orderid:"+orderId);
         new GetCartItems().execute(userId,orderId);
     }
 
@@ -109,7 +109,7 @@ public class CartView extends BaseActivityClass
             }
             catch (Exception e)
             {
-                Log.e("Inviks", "Error in http connection " + e.toString());
+                Log.e("Inviks", "Error in http connection CartView" + e.toString());
             }
             try
             {
@@ -122,11 +122,11 @@ public class CartView extends BaseActivityClass
                 }
                 is.close();
                 result = sb.toString();
-                Log.i("Inviks",result);
+
             }
             catch (Exception e)
             {
-                Log.e("Inviks", "Error converting result " + e.toString());
+                Log.e("Inviks", "Error converting result in CartView" + e.toString());
             }
             try
             {
@@ -136,7 +136,7 @@ public class CartView extends BaseActivityClass
             }
             catch (Exception e)
             {
-                Log.e("Inviks", "Error parsing data " + e.toString());
+                Log.e("Inviks", "Error parsing data in CartView" + e.toString());
                 return("Exception in get medicine details data.\n"+e.getMessage());
             }
             return("ok");
@@ -145,9 +145,10 @@ public class CartView extends BaseActivityClass
         protected void onPostExecute(String v)
         {
             super.onPostExecute(v);
-
+            // no exception found on previous call
             if(!v.toLowerCase().contains("exception"))
             {
+                // if no medicines in cart then...
                 if(null==medObjInCart || medObjInCart.size()<=0)
                 {
                     priceLable.setVisibility(View.INVISIBLE);
@@ -159,16 +160,21 @@ public class CartView extends BaseActivityClass
                 {
                     priceLable.setVisibility(View.VISIBLE);
                     qtyLable.setVisibility(View.VISIBLE);
-
                     emptyMsg.setVisibility(View.INVISIBLE);
                     checkout.setVisibility(View.VISIBLE);
-                    listView.setAdapter(new CartMedicineAdapter(context, medObjInCart));
+                    //listView.setAdapter(new CartMedicineAdapter(context, medObjInCart));
+                    try
+                    {
+
+                        listView.setAdapter(new CartMedicineAdapter(context, medObjInCart));
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.e("Inviks","Problems in cartview loading:"+ex.getMessage());
+                    }
                 }
             }
         }
-
-
     }
-
 }
 

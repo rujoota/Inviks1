@@ -50,7 +50,12 @@ public class Helper {
         editor.remove(key);
         editor.commit();
     }
-
+    public static String getSharedPref(Context context,String key)
+    {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(sharedPrefFileName, Context.MODE_PRIVATE);
+        String value = sharedPreferences.getString(key, "");
+        return value;
+    }
     public static String getCurrentLoggedinUser(Context context)
     {
         SharedPreferences sharedPreferences = context.getSharedPreferences(sharedPrefFileName, Context.MODE_PRIVATE);

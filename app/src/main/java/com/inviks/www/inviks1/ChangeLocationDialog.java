@@ -84,11 +84,10 @@ public class ChangeLocationDialog extends DialogFragment implements View.OnClick
                 HttpResponse httpResponse = httpClient.execute(httpGet);
                 int ret = httpResponse.getStatusLine().getStatusCode();
                 result = new Integer(ret).toString();
-                Log.i("ChangeLocationDialog", result);
 
             } catch (Exception e) {
 
-                Log.e("ChangeLocationDialog", "Error in http connection " + e.toString());
+                Log.e("Inviks", "Error in http connection - ChangeLocation" + e.toString());
 
             }
             return null;

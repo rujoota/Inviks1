@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.inviks.DBClasses.Medicine;
+import com.inviks.Helper.Helper;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -241,6 +242,7 @@ public class ItemDetails extends BaseActivityClass implements QuantityDialog.Com
 
             try
             {
+                // this method passes logged in userid and/or orderid. If both are null, then it creates a new order id for this phone in shared pref
                 HttpClient httpClient = new DefaultHttpClient();
                 HttpGet httpGet = new HttpGet(url_select);
                 httpGet.setHeader("medicineId", params[0]);
@@ -256,24 +258,23 @@ public class ItemDetails extends BaseActivityClass implements QuantityDialog.Com
                 Log.e("Inviks", "Error in http connection " + e.toString());
             }
 
+            try
+            {
+                BufferedReader br = new BufferedReader(new InputStreamReader(is));
+                StringBuilder sb = new StringBuilder();
+                String line = "";
+                while ((line = br.readLine()) != null)
+                {
+                    sb.append(line + "\n");
+                }
+                is.close();
+                result = sb.toString();
 
-                try
-                {
-                    BufferedReader br = new BufferedReader(new InputStreamReader(is));
-                    StringBuilder sb = new StringBuilder();
-                    String line = "";
-                    while ((line = br.readLine()) != null)
-                    {
-                        sb.append(line + "\n");
-                    }
-                    is.close();
-                    result = sb.toString();
-                    Log.i("Inviks",result);
-                }
-                catch (Exception e)
-                {
-                    Log.e("Inviks", "Error converting result " + e.toString());
-                }
+            }
+            catch (Exception e)
+            {
+                Log.e("Inviks", "Error converting result UpdateCart" + e.toString());
+            }
             return null;
         }
 
@@ -285,10 +286,7 @@ public class ItemDetails extends BaseActivityClass implements QuantityDialog.Com
                 if(!result.toLowerCase().equals("true") && result.toLowerCase().contains("iord"))
                 {
                     // if its not true means its order id
-
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("orderIdForCart",result.trim().replace("\"",""));
-                    editor.commit();
+                    Helper.putSharedPref(context, "orderIdForCart",result.trim().replace("\"",""));
                 }
                 Toast.makeText(context,"Item added to cart",Toast.LENGTH_LONG).show();
             }

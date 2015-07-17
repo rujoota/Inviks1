@@ -69,6 +69,14 @@
             android:name=".HelpActivity"
             android:label="@string/title_activity_help" >
         </activity>
+        <activity
+            android:name=".MyOrders"
+            android:label="@string/title_activity_my_orders" >
+        </activity>
+        <activity
+            android:name=".CheckOutActivity"
+            android:label="@string/title_activity_check_out" >
+        </activity>
     </application>
 
 </manifest>

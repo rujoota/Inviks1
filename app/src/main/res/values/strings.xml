@@ -61,4 +61,6 @@
 \nRegulatory Expertise for materials to ensure social responsibility through health and safety to customers and the environment.
         \n\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s,\n when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, \nand more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\n\n
     </string>
+    <string name="title_activity_my_orders">MyOrders</string>
+    <string name="title_activity_check_out">CheckOutActivity</string>
 </resources>
